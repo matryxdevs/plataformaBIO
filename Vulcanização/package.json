@@ -1,1 +1,0 @@
-{"name":"quiz-vulcanizacao","version":"1.0.0","private":true,"scripts":{"start":"node --env-file-if-exists=.env server.js"},"engines":{"node":">=22.13.0"}}
