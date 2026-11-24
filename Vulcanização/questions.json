@@ -1,0 +1,522 @@
+[
+  {
+    "id": 1,
+    "topic": "Gestão de riscos e qualidade",
+    "question": "Na análise de riscos de uma emenda de correia, qual é a abordagem coerente com a ISO 31000?",
+    "options": [
+      "Identificar, analisar e avaliar os riscos, definir tratamentos e monitorar sua eficácia.",
+      "Avaliar somente os acidentes já registrados no setor.",
+      "Definir controles apenas pelo custo de implantação.",
+      "Classificar todos os riscos com a mesma prioridade."
+    ],
+    "correct": 0,
+    "explanation": "O processo inclui avaliação, tratamento e acompanhamento dos riscos."
+  },
+  {
+    "id": 2,
+    "topic": "Gestão de riscos e qualidade",
+    "question": "Uma emenda apresenta abertura recorrente na mesma região. Qual ação é coerente com a ISO 9001?",
+    "options": [
+      "Aumentar a frequência de produção para compensar a falha.",
+      "Investigar a causa da não conformidade, implementar ação corretiva e verificar sua eficácia.",
+      "Refazer a emenda sem investigar a origem do problema.",
+      "Registrar somente o tempo de parada e encerrar a ocorrência."
+    ],
+    "correct": 1,
+    "explanation": "A ação corretiva atua sobre a causa da recorrência."
+  },
+  {
+    "id": 3,
+    "topic": "Gestão de riscos e qualidade",
+    "question": "Qual situação representa um risco relevante de energia armazenada durante uma emenda?",
+    "options": [
+      "Diferença de cor entre duas ferramentas de inspeção.",
+      "Alteração na identificação visual de uma ordem de serviço.",
+      "Movimentação inesperada da correia por tensão residual ou ação do contrapeso.",
+      "Mudança do turno da equipe sem alteração da condição da máquina."
+    ],
+    "correct": 2,
+    "explanation": "Tensão residual e gravidade podem causar movimento inesperado."
+  },
+  {
+    "id": 4,
+    "topic": "Gestão de riscos e qualidade",
+    "question": "Para assegurar a rastreabilidade de uma emenda, quais dados devem ser registrados?",
+    "options": [
+      "Apenas o custo da intervenção e a previsão de produção.",
+      "Identificação da correia, método, materiais e lotes, parâmetros aplicáveis e responsáveis.",
+      "Somente o horário de entrada e saída da equipe.",
+      "Apenas a marca do transportador e o nome do supervisor."
+    ],
+    "correct": 1,
+    "explanation": "Registros permitem reconstruir as condições da intervenção."
+  },
+  {
+    "id": 5,
+    "topic": "Gestão de riscos e qualidade",
+    "question": "Qual indicador é mais diretamente útil para avaliar a qualidade das emendas executadas?",
+    "options": [
+      "Volume de minério movimentado sem relação com as emendas.",
+      "Quantidade de uniformes distribuídos à equipe.",
+      "Taxa de retrabalho por falha de emenda em período definido.",
+      "Total de reuniões administrativas do mês."
+    ],
+    "correct": 2,
+    "explanation": "O retrabalho evidencia falhas de execução ou controle."
+  },
+  {
+    "id": 6,
+    "topic": "Metodologia 5S e planejamento",
+    "question": "Na aplicação do senso de utilização (Seiri), o que deve ser feito na área de vulcanização?",
+    "options": [
+      "Transferir resíduos para a passagem de pedestres.",
+      "Separar itens necessários dos desnecessários e dar destinação adequada aos excedentes.",
+      "Guardar todos os materiais usados junto aos novos.",
+      "Manter materiais vencidos disponíveis para emergências."
+    ],
+    "correct": 1,
+    "explanation": "Seiri elimina itens desnecessários do local de trabalho."
+  },
+  {
+    "id": 7,
+    "topic": "Metodologia 5S e planejamento",
+    "question": "Qual prática representa o senso de ordenação (Seiton) em uma oficina de correias?",
+    "options": [
+      "Organizar ferramentas apenas antes de auditorias.",
+      "Distribuir ferramentas conforme a conveniência de cada turno.",
+      "Identificar locais definidos para ferramentas, insumos e instrumentos de medição.",
+      "Armazenar produtos químicos sem identificação."
+    ],
+    "correct": 2,
+    "explanation": "Seiton facilita localização e devolução de itens."
+  },
+  {
+    "id": 8,
+    "topic": "Metodologia 5S e planejamento",
+    "question": "Que medida demonstra a aplicação do senso de limpeza (Seiso) na preparação de uma emenda?",
+    "options": [
+      "Manter a área limpa, controlar fontes de contaminação e tratar desvios encontrados.",
+      "Limpar apenas após o término de toda a intervenção.",
+      "Usar qualquer solvente disponível para acelerar o serviço.",
+      "Remover sujeira somente das superfícies visíveis ao supervisor."
+    ],
+    "correct": 0,
+    "explanation": "Limpeza também favorece a identificação de anomalias."
+  },
+  {
+    "id": 9,
+    "topic": "Metodologia 5S e planejamento",
+    "question": "O que diferencia um plano de inspeção de um plano de manutenção?",
+    "options": [
+      "O segundo se limita à observação visual do equipamento.",
+      "O primeiro substitui todo registro de manutenção.",
+      "O primeiro define verificações e critérios; o segundo planeja intervenções para preservar ou restaurar funções.",
+      "Ambos se resumem ao controle de produção diária."
+    ],
+    "correct": 2,
+    "explanation": "Inspeção identifica condições; manutenção atua no equipamento."
+  },
+  {
+    "id": 10,
+    "topic": "Metodologia 5S e planejamento",
+    "question": "Qual conteúdo deve integrar o plano de operação de um transportador de correia?",
+    "options": [
+      "Exclusivamente uma lista de ferramentas de vulcanização.",
+      "Somente metas de tonelagem por turno.",
+      "Apenas o orçamento anual de manutenção.",
+      "Verificações pré-operacionais, limites de operação, procedimentos de partida, parada e resposta a anomalias."
+    ],
+    "correct": 3,
+    "explanation": "O plano define critérios operacionais e respostas seguras."
+  },
+  {
+    "id": 11,
+    "topic": "NR-12 aplicada a transportadores de correia",
+    "question": "Qual é a finalidade das proteções instaladas nas zonas perigosas de tambores e roletes?",
+    "options": [
+      "Impedir o acesso a pontos de agarramento, esmagamento e aprisionamento.",
+      "Substituir a necessidade de bloquear energias em reparos.",
+      "Aumentar a velocidade de transporte de material.",
+      "Melhorar apenas a aparência do equipamento."
+    ],
+    "correct": 0,
+    "explanation": "As proteções controlam a exposição a partes móveis perigosas."
+  },
+  {
+    "id": 12,
+    "topic": "NR-12 aplicada a transportadores de correia",
+    "question": "Antes de uma emenda com acesso à correia e risco de movimento, qual condição é necessária?",
+    "options": [
+      "Parar, isolar e bloquear as energias perigosas, controlar a energia residual e verificar condição segura.",
+      "Solicitar ao operador que permaneça próximo ao botão de partida.",
+      "Acionar somente a parada de emergência.",
+      "Desligar pelo painel sem impedir uma nova partida."
+    ],
+    "correct": 0,
+    "explanation": "A parada isolada não impede reenergização nem movimento residual."
+  },
+  {
+    "id": 13,
+    "topic": "NR-12 aplicada a transportadores de correia",
+    "question": "Qual é a função do cabo de parada de emergência, quando previsto no transportador?",
+    "options": [
+      "Regular a velocidade de alimentação do transportador.",
+      "Substituir o sistema de bloqueio durante a manutenção.",
+      "Permitir a interrupção de emergência a partir das posições de trabalho atendidas pelo sistema.",
+      "Manter constante a tensão da correia."
+    ],
+    "correct": 2,
+    "explanation": "É um recurso de parada, não de isolamento de energia."
+  },
+  {
+    "id": 14,
+    "topic": "NR-12 aplicada a transportadores de correia",
+    "question": "Quando o desalinhamento anormal da correia oferecer risco de acidente, qual medida é prevista na NR-12?",
+    "options": [
+      "Aumentar o limite de atuação do sensor sem avaliação.",
+      "Utilizar dispositivos de segurança que interrompam a operação ao ultrapassar os limites de segurança do projeto.",
+      "Utilizar exclusivamente avisos sonoros sem interrupção do movimento.",
+      "Manter a correia em funcionamento até o próximo turno."
+    ],
+    "correct": 1,
+    "explanation": "A NR-12 trata da interrupção segura nesses casos (12.8.8)."
+  },
+  {
+    "id": 15,
+    "topic": "NR-12 aplicada a transportadores de correia",
+    "question": "Quem pode executar intervenções de manutenção e emenda com acesso a zonas perigosas?",
+    "options": [
+      "Qualquer trabalhador que conheça a área de produção.",
+      "Qualquer visitante acompanhado de um operador.",
+      "Profissionais com competência aplicável e autorização formal do empregador, seguindo os procedimentos de segurança.",
+      "Somente quem estiver disponível no momento da parada."
+    ],
+    "correct": 2,
+    "explanation": "A intervenção exige competência, autorização e controles de segurança."
+  },
+  {
+    "id": 16,
+    "topic": "Emenda a quente",
+    "question": "Qual característica distingue a emenda vulcanizada a quente?",
+    "options": [
+      "O processo dispensa materiais de ligação entre as extremidades.",
+      "A união depende exclusivamente de grampos metálicos.",
+      "A união é consolidada por um ciclo controlado de calor e pressão, conforme a especificação da correia.",
+      "A união ocorre somente pela tensão de trabalho da correia."
+    ],
+    "correct": 2,
+    "explanation": "Calor, pressão e tempo controlados são essenciais ao método."
+  },
+  {
+    "id": 17,
+    "topic": "Emenda a quente",
+    "question": "Como devem ser definidos os parâmetros de temperatura, pressão e tempo de cura?",
+    "options": [
+      "Conforme o procedimento técnico aprovado e as instruções do fabricante do sistema de emenda.",
+      "Pela mesma configuração utilizada em qualquer tipo de correia.",
+      "Pela temperatura ambiente, sem considerar os materiais empregados.",
+      "Pelo menor tempo possível de parada do equipamento."
+    ],
+    "correct": 0,
+    "explanation": "Os parâmetros variam conforme materiais e construção da correia."
+  },
+  {
+    "id": 18,
+    "topic": "Emenda a quente",
+    "question": "Qual é o efeito potencial de uma distribuição irregular de pressão na prensa vulcanizadora?",
+    "options": [
+      "Aumento garantido da resistência em toda a junta.",
+      "Eliminação automática da necessidade de inspeção.",
+      "Correção permanente de qualquer desalinhamento do transportador.",
+      "Consolidação desigual da emenda, com possibilidade de vazios ou falhas de aderência."
+    ],
+    "correct": 3,
+    "explanation": "A pressão irregular pode comprometer a integridade da junta."
+  },
+  {
+    "id": 19,
+    "topic": "Emenda a quente",
+    "question": "Durante o ciclo de vulcanização, um sensor indica temperatura fora da faixa prescrita. Qual é a conduta adequada?",
+    "options": [
+      "Liberar a correia assim que o cronograma de produção exigir.",
+      "Compensar alterando arbitrariamente a pressão da prensa.",
+      "Ignorar o desvio se a superfície da correia parecer uniforme.",
+      "Tratar o desvio conforme o procedimento, registrar a ocorrência e avaliar a conformidade antes da liberação."
+    ],
+    "correct": 3,
+    "explanation": "Desvios de parâmetros exigem avaliação técnica documentada."
+  },
+  {
+    "id": 20,
+    "topic": "Emenda a quente",
+    "question": "Qual condição deve ser confirmada antes da retirada da prensa e da liberação da emenda?",
+    "options": [
+      "Cumprimento dos critérios de cura, resfriamento e inspeção, conforme o procedimento aprovado.",
+      "Somente a ausência de fumaça na região da emenda.",
+      "Apenas o término do tempo inicialmente previsto na ordem de serviço.",
+      "Apenas o desligamento do painel da prensa."
+    ],
+    "correct": 0,
+    "explanation": "A liberação depende de critérios técnicos e de segurança."
+  },
+  {
+    "id": 21,
+    "topic": "Emenda a frio",
+    "question": "Qual é o princípio da emenda a frio em correias compatíveis com esse método?",
+    "options": [
+      "Fusão da carcaça por chama direta.",
+      "União por sistema adesivo apropriado, respeitando suas condições de aplicação e cura.",
+      "União obrigatoriamente por placas metálicas aparafusadas.",
+      "União por compressão sem uso de materiais de ligação."
+    ],
+    "correct": 1,
+    "explanation": "A emenda a frio utiliza adesivos específicos e cura controlada."
+  },
+  {
+    "id": 22,
+    "topic": "Emenda a frio",
+    "question": "Por que a preparação e a limpeza das superfícies são críticas na emenda a frio?",
+    "options": [
+      "Porque a limpeza elimina a necessidade de compatibilidade química.",
+      "Porque contaminantes podem reduzir a aderência e comprometer a resistência da união.",
+      "Porque a rugosidade deixa de influenciar a ligação.",
+      "Porque a limpeza substitui o período de cura do adesivo."
+    ],
+    "correct": 1,
+    "explanation": "Óleo, poeira e umidade podem prejudicar a adesão."
+  },
+  {
+    "id": 23,
+    "topic": "Emenda a frio",
+    "question": "Como proceder ao identificar adesivo vencido ou sem rastreabilidade?",
+    "options": [
+      "Misturá-lo com adesivo novo para recuperar a validade.",
+      "Aumentar a quantidade de endurecedor para compensar a validade.",
+      "Segregar o produto, registrar a irregularidade e utilizar material conforme a especificação.",
+      "Utilizá-lo em emendas de menor comprimento sem avaliação."
+    ],
+    "correct": 2,
+    "explanation": "Materiais não conformes não devem ser usados sem aprovação técnica."
+  },
+  {
+    "id": 24,
+    "topic": "Emenda a frio",
+    "question": "Qual aspecto ambiental merece atenção durante a aplicação do adesivo?",
+    "options": [
+      "Temperatura, umidade, ventilação e possibilidade de condensação, conforme a ficha técnica e a FDS.",
+      "Exclusivamente a distância entre a emenda e o escritório.",
+      "Somente a iluminação externa da oficina.",
+      "Apenas o nível de ruído do transportador."
+    ],
+    "correct": 0,
+    "explanation": "Condições ambientais influenciam aderência e exposição química."
+  },
+  {
+    "id": 25,
+    "topic": "Emenda a frio",
+    "question": "Por que é necessário respeitar o tempo de cura antes de recolocar a correia em serviço?",
+    "options": [
+      "Para eliminar a necessidade de inspeção da emenda.",
+      "Para permitir que o transportador opere acima da capacidade.",
+      "Para tornar qualquer tipo de adesivo compatível com a correia.",
+      "Para que a união desenvolva as propriedades exigidas antes de receber esforços operacionais."
+    ],
+    "correct": 3,
+    "explanation": "O carregamento prematuro pode comprometer a junta."
+  },
+  {
+    "id": 26,
+    "topic": "Emenda mecânica",
+    "question": "O que caracteriza uma emenda mecânica de correia transportadora?",
+    "options": [
+      "A substituição integral da correia por uma nova.",
+      "A aplicação de adesivo sem qualquer elemento de fixação.",
+      "A união exclusiva por cura térmica em prensa.",
+      "A união das extremidades mediante elementos de fixação compatíveis, sem depender de vulcanização."
+    ],
+    "correct": 3,
+    "explanation": "A fixação mecânica é um método de união distinto da vulcanização."
+  },
+  {
+    "id": 27,
+    "topic": "Emenda mecânica",
+    "question": "Quais critérios técnicos são fundamentais para selecionar fixadores mecânicos?",
+    "options": [
+      "Exclusivamente a cor e o comprimento nominal da correia.",
+      "Espessura da correia, capacidade de tensão, diâmetro mínimo dos tambores e compatibilidade operacional.",
+      "Apenas o preço dos fixadores e o prazo de entrega.",
+      "Somente a largura do corredor de manutenção."
+    ],
+    "correct": 1,
+    "explanation": "A seleção deve respeitar a correia e a geometria do transportador."
+  },
+  {
+    "id": 28,
+    "topic": "Emenda mecânica",
+    "question": "Qual consequência pode decorrer de uma emenda mecânica desalinhada?",
+    "options": [
+      "Eliminação do desgaste nos tambores e raspadores.",
+      "Distribuição desigual dos esforços, desgaste irregular e problemas de acompanhamento da correia.",
+      "Redução garantida da tensão em todos os fixadores.",
+      "Aumento uniforme da resistência à tração."
+    ],
+    "correct": 1,
+    "explanation": "Geometria inadequada favorece esforços e desgaste desiguais."
+  },
+  {
+    "id": 29,
+    "topic": "Emenda mecânica",
+    "question": "Na inspeção de uma emenda mecânica com o equipamento bloqueado, qual condição exige avaliação imediata?",
+    "options": [
+      "Fixadores soltos, quebrados ou com sinais de arrancamento da carcaça.",
+      "Identificação legível do equipamento.",
+      "Registros de manutenção corretamente preenchidos.",
+      "Ferramentas organizadas no local de trabalho."
+    ],
+    "correct": 0,
+    "explanation": "Fixadores danificados podem provocar falha da união."
+  },
+  {
+    "id": 30,
+    "topic": "Emenda mecânica",
+    "question": "Ao escolher entre emenda mecânica, a quente ou a frio, qual critério deve prevalecer?",
+    "options": [
+      "Sempre o método que apresentar menor preço inicial.",
+      "A preferência pessoal da equipe, independentemente das condições.",
+      "Sempre o método de menor tempo de execução.",
+      "Compatibilidade técnica com a correia, condições de serviço, criticidade e aprovação do método."
+    ],
+    "correct": 3,
+    "explanation": "O método depende da aplicação e dos riscos, não apenas do custo."
+  },
+  {
+    "id": 31,
+    "topic": "Inspeção de correias transportadoras",
+    "question": "Qual conjunto de itens deve integrar a inspeção da correia e de suas emendas?",
+    "options": [
+      "Apenas a potência nominal do motor elétrico.",
+      "Cobertura, bordas, carcaça aparente, condição das emendas e indícios de desalinhamento.",
+      "Somente a pintura da estrutura e a placa de identificação.",
+      "Somente o volume transportado durante o último turno."
+    ],
+    "correct": 1,
+    "explanation": "A inspeção deve identificar sinais de degradação da correia."
+  },
+  {
+    "id": 32,
+    "topic": "Inspeção de correias transportadoras",
+    "question": "Durante a inspeção, identifica-se desgaste progressivo em apenas uma borda da correia. O que investigar?",
+    "options": [
+      "Somente a data de aquisição do motor.",
+      "A cor da cobertura da correia em seu lado oposto.",
+      "Exclusivamente a quantidade de adesivo em estoque.",
+      "Desalinhamento, distribuição de carga, condição dos roletes e interferências com a estrutura."
+    ],
+    "correct": 3,
+    "explanation": "Desgaste lateral pode indicar problemas de trajetória ou contato."
+  },
+  {
+    "id": 33,
+    "topic": "Inspeção de correias transportadoras",
+    "question": "A inspeção constata uma abertura na emenda e exposição da carcaça. Qual é a conduta adequada?",
+    "options": [
+      "Registrar e comunicar o defeito, avaliar sua criticidade e impedir a operação se a segurança estiver comprometida.",
+      "Aguardar a ruptura para programar a manutenção.",
+      "Aumentar a velocidade para reduzir o tempo de contato com os tambores.",
+      "Cobrir a abertura superficialmente e liberar sem avaliação."
+    ],
+    "correct": 0,
+    "explanation": "Abertura e exposição da carcaça podem indicar perda de integridade."
+  },
+  {
+    "id": 34,
+    "topic": "Inspeção de correias transportadoras",
+    "question": "Qual é a finalidade de registrar a localização e a dimensão de um defeito em inspeções sucessivas?",
+    "options": [
+      "Acompanhar sua evolução, priorizar intervenções e apoiar decisões baseadas em evidências.",
+      "Substituir o manual técnico do fabricante.",
+      "Eliminar a necessidade de analisar o risco do defeito.",
+      "Garantir que o defeito não se agrave sem intervenção."
+    ],
+    "correct": 0,
+    "explanation": "O histórico permite avaliar tendências de degradação."
+  },
+  {
+    "id": 35,
+    "topic": "Inspeção de correias transportadoras",
+    "question": "Durante uma inspeção visual com a correia em funcionamento, de onde deve ser feita a observação?",
+    "options": [
+      "Entre a correia e o tambor, para observar melhor a superfície.",
+      "Sobre a correia em movimento, desde que em baixa velocidade.",
+      "Dentro da proteção dos roletes, desde que acompanhado.",
+      "De posição segura, com proteções preservadas e sem acessar zonas perigosas; intervenções exigem condição segura."
+    ],
+    "correct": 3,
+    "explanation": "Observação não autoriza acesso às partes perigosas."
+  },
+  {
+    "id": 36,
+    "topic": "Manutenção e operação segura",
+    "question": "Qual exemplo caracteriza manutenção preventiva de um transportador?",
+    "options": [
+      "Substituir um tambor exclusivamente após sua ruptura.",
+      "Reparar uma correia somente após a parada por falha.",
+      "Restabelecer uma emenda que já se rompeu durante a operação.",
+      "Executar inspeções e substituições programadas conforme criticidade e critérios técnicos."
+    ],
+    "correct": 3,
+    "explanation": "A manutenção preventiva é planejada para reduzir a probabilidade de falhas."
+  },
+  {
+    "id": 37,
+    "topic": "Manutenção e operação segura",
+    "question": "Qual exemplo caracteriza manutenção corretiva?",
+    "options": [
+      "Organizar ferramentas antes do início do turno.",
+      "Revisar o cronograma de inspeções sem executar reparos.",
+      "Restaurar a função do transportador após a identificação de uma falha, com intervenção segura.",
+      "Realizar treinamento de reciclagem sem defeito no equipamento."
+    ],
+    "correct": 2,
+    "explanation": "A corretiva atua sobre falha ou defeito identificado."
+  },
+  {
+    "id": 38,
+    "topic": "Manutenção e operação segura",
+    "question": "Qual informação deve constar no registro da manutenção, conforme a NR-12?",
+    "options": [
+      "Apenas o número de trabalhadores presentes.",
+      "Exclusivamente a autorização verbal do operador.",
+      "Somente a duração da parada e o custo do serviço.",
+      "Serviço, data, componentes reparados ou substituídos, responsável e conclusão sobre segurança."
+    ],
+    "correct": 3,
+    "explanation": "O registro documenta a intervenção e a condição de segurança."
+  },
+  {
+    "id": 39,
+    "topic": "Manutenção e operação segura",
+    "question": "Após a conclusão de uma emenda, quais condições antecedem a retomada operacional?",
+    "options": [
+      "Remoção dos bloqueios antes de finalizar a inspeção.",
+      "Inspeção e aceitação técnica, restabelecimento das proteções, área liberada e retirada de bloqueios conforme procedimento.",
+      "Apenas comunicação verbal ao operador, sem verificar a área.",
+      "Partida imediata para testar a emenda enquanto a equipe recolhe ferramentas."
+    ],
+    "correct": 1,
+    "explanation": "A retomada exige liberação técnica e controles de segurança."
+  },
+  {
+    "id": 40,
+    "topic": "Manutenção e operação segura",
+    "question": "Uma equipe recebe pressão para liberar uma correia com falha em dispositivo de segurança. Qual deve ser sua decisão?",
+    "options": [
+      "Desativar o dispositivo até o próximo turno.",
+      "Liberar a operação com um observador ao lado do dispositivo.",
+      "Manter a condição segura, comunicar o desvio, providenciar correção e liberar somente após avaliação e autorização.",
+      "Aceitar a liberação se a meta de produção estiver ameaçada."
+    ],
+    "correct": 2,
+    "explanation": "A produção não justifica a exposição a riscos não controlados."
+  }
+]
