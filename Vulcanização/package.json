@@ -1,0 +1,14 @@
+{
+  "name": "game-bioquality",
+  "version": "22.0.0",
+  "private": true,
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "build": "node --check server.js && node --check public/app.js && node --check race.js && node --check public/race.js && node --check scoring.js && node --check public/arena3d.js && node --check ads.js && node --check public/ads-ui.js && node --check carousel.js && node --check public/login-carousel.js && node --check teams.js && node --check public/team.js",
+    "test": "node test-scoring.js && node test.js && node test-race.js && node test-ads.js && node test-autoplay.js && node test-carousel.js && node test-marketing.js && node test-instructors.js && node test-teams.js && node test-performance.js"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
