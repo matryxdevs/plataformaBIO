@@ -1,0 +1,14 @@
+{
+  "name": "game-arena-bioquality",
+  "version": "10.0.0",
+  "private": true,
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "build": "node --check server.js && node --check public/app.js && node --check race.js && node --check public/race.js && node --check scoring.js && node --check public/arena3d.js && node --check ads.js && node --check public/ads-ui.js",
+    "test": "node test-scoring.js && node test.js && node test-race.js && node test-ads.js"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
