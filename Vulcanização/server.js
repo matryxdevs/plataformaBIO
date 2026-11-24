@@ -1,0 +1,59 @@
+'use strict';
+const http=require('node:http'),fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto');
+// Optional local .env. The hosting environment always wins.
+try{for(const line of fs.readFileSync(path.join(__dirname,'.env'),'utf8').split(/\r?\n/)){const m=line.match(/^\s*([A-Z_][A-Z_0-9]*)\s*=\s*(.*?)\s*$/);if(m&&process.env[m[1]]===undefined)process.env[m[1]]=m[2].replace(/^(['"])(.*)\1$/,'$2');}}catch(e){if(e.code!=='ENOENT')console.error('Falha ao ler .env:',e.message);}
+const questions=require('./questions.json'), total=questions.length;
+const publicQ=questions.map(({correct,explanation,...q})=>q);
+const port=Number(process.env.PORT||3000),dir=path.resolve(process.env.DATA_DIR||path.join(__dirname,'data')),file=path.join(dir,'quiz-v2.json');
+const adminLogin=(process.env.ADMIN_LOGIN||'admin').trim().toLowerCase();
+const hash=p=>{let s=crypto.randomBytes(16).toString('hex');return s+':'+crypto.scryptSync(p,s,64).toString('hex');};
+function verify(p,h){try{const [s,k]=h.split(':');const b=Buffer.from(k,'hex');return b.length===64&&crypto.timingSafeEqual(crypto.scryptSync(p,s,64),b);}catch{return false;}}
+const digest=s=>crypto.createHash('sha256').update(s).digest('hex');
+let state=null,problem=null;
+// Persist via atomic replacement; publish state only after successful disk write.
+function save(next){const tmp=file+'.'+crypto.randomBytes(8).toString('hex')+'.tmp';let fd;try{fd=fs.openSync(tmp,'wx',0o600);fs.writeFileSync(fd,JSON.stringify(next));fs.fsyncSync(fd);fs.closeSync(fd);fd=undefined;fs.renameSync(tmp,file);state=next;}finally{if(fd!==undefined)fs.closeSync(fd);try{fs.unlinkSync(tmp);}catch(e){if(e.code!=='ENOENT')console.error('Falha ao limpar temporário:',e.message);}}}
+function change(fn){const next=structuredClone(state),v=fn(next);save(next);return v;}
+function init(){try{fs.mkdirSync(dir,{recursive:true,mode:0o700});if(fs.existsSync(file)){const s=JSON.parse(fs.readFileSync(file,'utf8'));if(s.version!==2||!Array.isArray(s.users)||!s.users.some(u=>u.role==='admin')||!Array.isArray(s.sessions)||!Array.isArray(s.attempts))throw Error('Formato de dados inválido; preserve o arquivo para recuperação.');state=s;console.log('Dados existentes carregados.');return;}if(fs.existsSync(path.join(dir,'quiz.sqlite'))) {problem='Foi encontrado um banco da versão anterior. Faça a migração antes de iniciar. Consulte o README.';return;}if(!/^[a-z0-9._@-]{3,80}$/.test(adminLogin)){problem='Configure ADMIN_LOGIN com 3 a 80 caracteres, sem espaços, e reimplante.';return;}const p=process.env.ADMIN_PASSWORD;if(!p||p.length<12||p.length>200){problem='Configure ADMIN_PASSWORD com 12 a 200 caracteres nas variáveis de ambiente e reimplante.';return;}save({version:2,users:[{id:1,login:adminLogin,name:'Administrador',company:'',role:'admin',password:hash(p)}],sessions:[],attempts:[]});console.log('Administrador inicial criado.');}catch(e){problem='Não foi possível abrir o armazenamento. Confira DATA_DIR, permissões e integridade dos dados.';console.error('Inicialização do armazenamento:',e.message);}}
+init();if(problem)console.error(problem);
+const files={'/':'index.html','/admin':'index.html','/admin/':'index.html','/aluno':'index.html','/aluno/':'index.html','/app.js':'app.js','/style.css':'style.css','/theory.json':'theory.json'};
+const mime={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.json':'application/json; charset=utf-8'};
+function send(res,status,data){res.writeHead(status,{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store'});res.end(JSON.stringify(data));}
+function fail(status,message){throw Object.assign(Error(message),{status});}
+async function body(req){if(!(req.headers['content-type']||'').startsWith('application/json'))fail(415,'Formato inválido.');let size=0,chunks=[];for await(const c of req){size+=c.length;if(size>20000)fail(413,'Dados excedem o limite.');chunks.push(c);}try{const v=JSON.parse(Buffer.concat(chunks));if(!v||typeof v!=='object'||Array.isArray(v))throw Error();return v;}catch{fail(400,'Dados inválidos.');}}
+const limits=new Map();function rate(key,max){const now=Date.now();for(const [k,v] of limits)if(v.until<=now)limits.delete(k);const v=limits.get(key)||{n:0,until:now+60000};v.n++;limits.set(key,v);if(v.n>max)fail(429,'Muitas tentativas. Aguarde um minuto.');}
+function session(req){const t=(req.headers.cookie||'').match(/(?:^|;\s*)quiz_session=([a-f0-9]{64})(?:;|$)/)?.[1];if(!t)return null;const s=state.sessions.find(s=>s.token===digest(t)&&s.expires>Date.now());if(!s)return null;const u=state.users.find(u=>u.id===s.uid);return u?{...u,token:s.token}:null;}
+function cookie(req,t,age){const secure=process.env.COOKIE_SECURE==='true'||(process.env.COOKIE_SECURE!=='false'&&(req.socket.encrypted||req.headers['x-forwarded-proto']==='https'));return `quiz_session=${t}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${age}${secure?'; Secure':''}`;}
+const attempt=(uid,s=state)=>s.attempts.find(a=>a.uid===uid)||null;
+const score=a=>questions.reduce((n,q)=>n+(a[q.id]===q.correct?1:0),0);
+const details=a=>questions.map(q=>({...q,selected:a.answers[q.id]??null}));
+function report(){return state.users.filter(u=>u.role==='student').map(u=>{const a=attempt(u.id);return {id:u.id,name:u.name,login:u.login,company:u.company,started:a?.started??null,submitted:a?.submitted??null,score:a?.score??null,answered:a?Object.keys(a.answers).length:0,status:a?.submitted?'Concluído':a?'Em andamento':'Não iniciado'};}).sort((a,b)=>(b.score??-1)-(a.score??-1)||a.name.localeCompare(b.name,'pt-BR'));}
+const csvCell=v=>'"'+String(v??'').replace(/^[\s]*[=+@-]|^[\t\r\n]/,m=>"'"+m).replace(/"/g,'""')+'"';
+const server=http.createServer(async(req,res)=>{res.setHeader('X-Content-Type-Options','nosniff');res.setHeader('X-Frame-Options','DENY');res.setHeader('Referrer-Policy','no-referrer');res.setHeader('Content-Security-Policy',"default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'");
+try{const p=new URL(req.url,'http://localhost').pathname,m=req.method;
+if((m==='GET'||m==='HEAD')&&Object.hasOwn(files,p)){const f=path.join(__dirname,'public',files[p]);res.writeHead(200,{'Content-Type':mime[path.extname(f)],'Cache-Control':'no-cache'});return res.end(m==='HEAD'?undefined:fs.readFileSync(f));}
+if(m==='GET'&&p==='/api/health')return send(res,200,{version:'2.0.0',ready:!!state, message:problem||'Aplicação pronta.'});
+if(m==='GET'&&p==='/health')return send(res,200,{running:true,ready:!!state,version:'2.0.0'});
+if(!p.startsWith('/api/'))return send(res,404,{error:'Página não encontrada.'});
+if(!state)fail(503,problem||'Aplicação não configurada.');
+if(m==='POST'&&req.headers['sec-fetch-site']==='cross-site')fail(403,'Origem não permitida.');
+if(m==='POST'&&p==='/api/login'){const b=await body(req);if(typeof b.login!=='string'||typeof b.password!=='string'||b.login.length>80||b.password.length>200)fail(400,'Credenciais inválidas.');const login=b.login.trim().toLowerCase();rate('ip:'+req.socket.remoteAddress,300);rate('login:'+login,20);const a=state.users.find(u=>u.login===login);if(!a||!verify(b.password,a.password))fail(401,'Usuário ou senha incorretos.');const old=session(req),t=crypto.randomBytes(32).toString('hex');change(s=>{s.sessions=s.sessions.filter(v=>v.expires>Date.now()&&v.token!==old?.token);s.sessions.push({token:digest(t),uid:a.id,expires:Date.now()+86400000});});res.setHeader('Set-Cookie',cookie(req,t,86400));return send(res,200,{role:a.role,name:a.name});}
+const user=session(req);if(!user)fail(401,'Faça login para continuar.');
+if(m==='POST'&&p==='/api/logout'){await body(req);change(s=>{s.sessions=s.sessions.filter(v=>v.token!==user.token);});res.setHeader('Set-Cookie',cookie(req,'',0));return send(res,200,{ok:true});}
+if(m==='GET'&&p==='/api/me'){const {token,password,...safe}=user;return send(res,200,safe);}
+if(user.role==='student'){
+ if(m==='GET'&&p==='/api/quiz')return send(res,200,{questions:publicQ,attempt:attempt(user.id)});
+ if(m==='POST'&&p==='/api/start'){await body(req);if(!attempt(user.id))change(s=>s.attempts.push({uid:user.id,answers:{},started:new Date().toISOString(),submitted:null,score:null}));return send(res,200,attempt(user.id));}
+ if(m==='POST'&&p==='/api/answer'){const b=await body(req),a=attempt(user.id);if(!a||a.submitted)fail(409,'Avaliação não disponível para edição.');if(!Number.isInteger(b.id)||!questions.some(q=>q.id===b.id)||!Number.isInteger(b.option)||b.option<0||b.option>3)fail(400,'Alternativa inválida.');change(s=>{attempt(user.id,s).answers[b.id]=b.option;});return send(res,200,{answered:Object.keys(attempt(user.id).answers).length});}
+ if(m==='POST'&&p==='/api/submit'){await body(req);const a=attempt(user.id);if(!a)fail(409,'Inicie a avaliação.');if(!a.submitted){if(questions.some(q=>!Object.hasOwn(a.answers,q.id)))fail(400,'Responda todas as questões.');change(s=>{const a=attempt(user.id,s);a.submitted=new Date().toISOString();a.score=score(a.answers);});}return send(res,200,attempt(user.id));}
+ if(m==='GET'&&p==='/api/result'){const a=attempt(user.id);if(!a?.submitted)fail(409,'Conclua a avaliação primeiro.');return send(res,200,{attempt:a,questions:details(a)});}
+}else if(user.role==='admin'){
+ if(m==='POST'&&p==='/api/students'){const b=await body(req),name=String(b.name||'').trim(),login=String(b.login||'').trim().toLowerCase(),company=String(b.company||'').trim(),password=b.password;if(!name||name.length>120||company.length>120||!/^[a-z0-9._@-]{3,80}$/.test(login)||typeof password!=='string'||password.length<8||password.length>100)fail(400,'Confira nome, usuário (3–80 caracteres, sem espaços) e senha (8–100 caracteres).');if(state.users.some(u=>u.login===login))fail(409,'Este usuário já existe.');const id=Math.max(0,...state.users.map(u=>u.id))+1;change(s=>s.users.push({id,name,login,company,role:'student',password:hash(password)}));return send(res,201,{ok:true,id});}
+ if(m==='GET'&&p==='/api/report')return send(res,200,report());
+ if(m==='GET'&&p==='/api/report.csv'){const lines=[['Aluno','Usuário','Empresa/Turma','Situação','Respondidas','Acertos','Erros','Percentual','Início (ISO UTC)','Conclusão (ISO UTC)'],...report().map(r=>[r.name,r.login,r.company,r.status,r.answered,r.score,r.score==null?'':total-r.score,r.score==null?'':(r.score/total*100).toFixed(1)+'%',r.started,r.submitted])];res.writeHead(200,{'Content-Type':'text/csv; charset=utf-8','Content-Disposition':'attachment; filename="relatorio-vulcanizacao.csv"','Cache-Control':'no-store'});return res.end('\ufeff'+lines.map(r=>r.map(csvCell).join(';')).join('\r\n'));}
+ if(m==='GET'&&/^\/api\/report\/\d+$/.test(p)){const id=Number(p.split('/').pop()),u=state.users.find(u=>u.id===id&&u.role==='student'),a=attempt(id);if(!u||!a?.submitted)fail(404,'Resultado não encontrado.');const {password,role,...student}=u;return send(res,200,{student,attempt:a,questions:details(a)});}
+ if(m==='POST'&&p==='/api/password'){const b=await body(req);if(!Number.isInteger(b.id)||typeof b.password!=='string'||b.password.length<8||b.password.length>100)fail(400,'Senha inválida.');if(!state.users.some(u=>u.id===b.id&&u.role==='student'))fail(404,'Aluno não encontrado.');change(s=>{s.users.find(u=>u.id===b.id).password=hash(b.password);s.sessions=s.sessions.filter(v=>v.uid!==b.id);});return send(res,200,{ok:true});}
+}
+return send(res,403,{error:'Recurso não disponível para este acesso.'});
+}catch(e){if(!e.status)console.error('Erro de requisição:',e);if(!res.headersSent)send(res,e.status||500,{error:e.status?e.message:'Falha interna. Confira os logs de execução.'});else res.end();}});
+server.on('error',e=>{console.error('Falha ao iniciar servidor:',e);process.exitCode=1;});
+server.listen(port,'0.0.0.0',()=>console.log(`Bioquality Quiz v2 iniciado na porta ${port}; pronto=${!!state}`));
