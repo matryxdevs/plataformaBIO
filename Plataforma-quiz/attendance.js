@@ -1,0 +1,29 @@
+'use strict';
+const {randomUUID}=require('node:crypto');
+const tz='America/Fortaleza';
+function today(now=new Date()){const parts=new Intl.DateTimeFormat('en-CA',{timeZone:tz,year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(now);const get=k=>parts.find(p=>p.type===k).value;return `${get('year')}-${get('month')}-${get('day')}`;}
+function status(l,day=today()){return l.closedAt?'archived':l.date<day?'expired':l.date>day?'scheduled':'open';}
+const normalized=s=>String(s||'').trim().normalize('NFC').toLocaleLowerCase('pt-BR');
+const eligible=(l,u)=>l.companySelection===true||!l.company||normalized(l.company)===normalized(u.company);
+const companyKey=s=>normalized(s).normalize('NFD').replace(/\p{M}/gu,'').replace(/\s+/g,' ');
+const choices=(l,companies)=>companies.filter(c=>!c.disabledAt&&(!l.companyId||c.id===l.companyId)).map(({id,name})=>({id,name}));
+function validDate(v){if(typeof v!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(v))return false;const n=Date.parse(v+'T00:00:00Z');return Number.isFinite(n)&&new Date(n).toISOString().slice(0,10)===v;}
+module.exports=({getState,change,body,send,fail,txt,csvCell})=>async(req,res,url,user)=>{
+ const p=url.pathname,m=req.method,day=today(),lists=getState().attendance||[],companies=getState().attendanceCompanies||[];
+ const find=id=>{const l=lists.find(x=>x.id===id);if(!l)fail(404,'Lista de presença não encontrada.');return l;};
+ if(user.role==='student'){
+  if(m==='GET'&&p==='/api/attendance')return send(res,200,{today:day,lists:lists.filter(l=>l.entries.some(e=>e.uid===user.id)||(l.date===day&&status(l,day)==='open'&&eligible(l,user))).map(l=>({id:l.id,title:l.title,date:l.date,company:l.company,companySelection:!!l.companySelection,companies:l.companySelection&&!l.entries.some(e=>e.uid===user.id)?choices(l,companies):[],presentCompany:l.entries.find(e=>e.uid===user.id)?.company||null,status:status(l,day),presentAt:l.entries.find(e=>e.uid===user.id)?.at||null})).sort((a,b)=>b.date.localeCompare(a.date))});
+  if(m==='POST'&&p==='/api/attendance/mark'){const b=await body(req),l=find(b.id),existing=l.entries.find(e=>e.uid===user.id);if(existing)return send(res,200,{presentAt:existing.at,already:true});if(status(l)!=='open'||!eligible(l,user))fail(403,'Lista indisponível para sua conta neste momento.');const selected=l.companySelection?choices(l,companies).find(c=>c.id===b.companyId):null;if(l.companySelection&&!selected)fail(400,'Selecione uma empresa disponível na lista.');const at=new Date().toISOString();await change(s=>{s.attendance.find(x=>x.id===l.id).entries.push({uid:user.id,name:user.name,login:user.login,company:selected?selected.name:user.company||'',...(selected?{companyId:selected.id}:{}),at});});return send(res,201,{presentAt:at,already:false});}
+  fail(403,'Recurso reservado à administração.');
+ }
+ if(user.role!=='admin')fail(403,'Recurso reservado à administração.');
+ if(m==='GET'&&p==='/api/attendance/admin')return send(res,200,{today:day,companies:companies.map(c=>({...c})).sort((a,b)=>a.name.localeCompare(b.name,'pt-BR')),lists:lists.map(({entries,...l})=>({...l,status:status(l,day),count:entries.length})).sort((a,b)=>b.date.localeCompare(a.date)||b.createdAt.localeCompare(a.createdAt))});
+ if(m==='POST'&&p==='/api/attendance/companies/create'){const b=await body(req),name=txt(b.name,120).replace(/\s+/g,' ');if(companies.some(c=>companyKey(c.name)===companyKey(name)))fail(409,'Empresa já cadastrada.');const c={id:randomUUID(),name,createdAt:new Date().toISOString(),disabledAt:null};await change(s=>s.attendanceCompanies.push(c));return send(res,201,c);}
+ if(m==='POST'&&p==='/api/attendance/companies/status'){const b=await body(req),c=companies.find(c=>c.id===b.id);if(!c)fail(404,'Empresa não encontrada.');if(typeof b.active!=='boolean')fail(400,'Situação inválida.');await change(s=>{s.attendanceCompanies.find(x=>x.id===c.id).disabledAt=b.active?null:new Date().toISOString();});return send(res,200,{ok:true});}
+ if(m==='POST'&&p==='/api/attendance/create'){const b=await body(req),title=txt(b.title,150),companySelection=Object.hasOwn(b,'companyId');let company=txt(b.company??'',120,false);let companyId=null;if(companySelection){if(typeof b.companyId!=='string')fail(400,'Empresa inválida.');companyId=b.companyId||null;const available=choices({companyId},companies);if(!available.length)fail(400,'Cadastre ou ative uma empresa antes de criar a lista.');company=companyId?available[0].name:'';}if(!validDate(b.date)||b.date<day)fail(400,'Informe a data de hoje ou uma data futura.');const l={id:randomUUID(),title,date:b.date,company,...(companySelection?{companySelection:true,companyId}:{}),createdBy:user.id,createdAt:new Date().toISOString(),closedAt:null,entries:[]};await change(s=>{s.attendance.push(l);});return send(res,201,{id:l.id});}
+ if(m==='POST'&&p==='/api/attendance/close'){const b=await body(req),l=find(b.id);if(!l.closedAt)await change(s=>{s.attendance.find(x=>x.id===l.id).closedAt=new Date().toISOString();});return send(res,200,{ok:true});}
+ if(m==='GET'&&p==='/api/attendance/detail'){const l=find(url.searchParams.get('id'));return send(res,200,{...l,status:status(l,day)});}
+ if(m==='GET'&&p==='/api/attendance/export.csv'){const l=find(url.searchParams.get('id')),rows=[['Treinamento','Data da lista','Turma da lista','Aluno','Usuário','Empresa/Turma','Registro (horário de Brasília)','Registro (UTC)'],...l.entries.map(e=>[l.title,l.date,l.company,e.name,e.login,e.company,new Date(e.at).toLocaleString('pt-BR',{timeZone:tz}),e.at])];res.writeHead(200,{'Content-Type':'text/csv; charset=utf-8','Content-Disposition':`attachment; filename="presenca-${l.date}-${l.id}.csv"`,'Cache-Control':'no-store'});return res.end('\ufeff'+rows.map(r=>r.map(csvCell).join(';')).join('\r\n'));}
+ fail(404,'Recurso não encontrado.');
+};
+module.exports.today=today;module.exports.status=status;
