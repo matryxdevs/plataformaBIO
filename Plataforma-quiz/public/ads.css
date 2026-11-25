@@ -1,0 +1,22 @@
+.campaign-section{margin:30px 0 34px}.campaign-section .title-row{align-items:center;margin-bottom:16px}.campaign-section h2{margin:0}.campaign-tag,.campaign-label{font-weight:800;font-size:10px;letter-spacing:1.3px;color:#4d7568}.campaign-tag{background:#e1efe8;border:1px solid #c6ded1;border-radius:30px;padding:7px 12px;white-space:nowrap}.campaign-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:18px}.campaign-card{isolation:isolate;position:relative;overflow:hidden;border-radius:22px;background:#fff;border:1px solid #dce9e2;color:#17332b;box-shadow:0 10px 28px #12362c0c;display:flex;flex-direction:column}.campaign-content{padding:26px 26px 18px;flex:0 0 auto}.campaign-label{display:block;color:#08784e;margin-bottom:10px}.campaign-card h3{font-size:clamp(20px,2.7vw,29px);line-height:1.25;margin:0 0 10px;color:#17332b;overflow-wrap:anywhere}.campaign-card p{color:#52675e;white-space:pre-wrap;overflow-wrap:anywhere;margin:0}.campaign-card .campaign-cta{background:#08784e;color:#fff;box-shadow:0 4px 12px #08784e24;text-decoration:none}.campaign-media{padding:0 16px 16px;display:grid;gap:10px}.campaign-image{width:100%;max-height:300px;object-fit:contain;background:#fff;border-radius:12px}.campaign-video,.campaign-embed{width:100%;aspect-ratio:16/9;border-radius:12px;background:#061411;overflow:hidden}.campaign-embed iframe{display:block;width:100%;height:100%;border:0}.campaign-admin-card{min-width:0;border:1px solid var(--line);padding:14px;border-radius:18px;display:flex;flex-direction:column;gap:12px;background:white}.campaign-admin-card .campaign-card{flex:1}.campaign-preview{max-width:520px;display:grid;gap:10px}.campaign-preview .campaign-image{max-height:180px}#ad-form textarea{width:100%;font:inherit;padding:12px;border:1px solid var(--line);border-radius:12px;resize:vertical}#ad-form input[type=file]{max-width:100%}@media(max-width:560px){.campaign-tag{white-space:normal}.campaign-content{padding:20px}.campaign-card{border-radius:16px}.campaign-media{padding:0 12px 12px}}@media print{.campaign-section{display:none!important}}
+
+.ad-placements{margin:16px 0;padding:12px 18px;border:1px solid var(--line);border-radius:12px}.ad-placements legend{font-weight:800;padding:0 6px}.ad-placements .checkline{margin:8px 0}#race-campaigns[hidden]{display:none!important}#race-campaigns{margin:0 0 18px}.campaign-section .title-row p{margin:5px 0}.course-card [data-course-video]{margin-top:10px}
+
+/* V11: formato individual do player, sem recorte nem rotação. */
+.campaign-video,.campaign-embed{display:block;max-width:100%;height:auto;justify-self:center;object-fit:contain;}
+.campaign-video.video-horizontal,.campaign-embed.video-horizontal{width:100%;aspect-ratio:16/9;}
+.campaign-video.video-vertical,.campaign-embed.video-vertical{width:min(100%,315px);aspect-ratio:9/16;}
+.campaign-embed iframe{width:100%;height:100%;}
+.campaign-preview{width:100%;}
+
+/* V13 — fundo branco e ação comercial abaixo de toda a mídia. */
+.campaign-actions{display:flex;justify-content:center;padding:0 16px 20px;margin-top:0}
+.campaign-card .campaign-cta{width:100%;max-width:480px;min-height:48px;text-align:center;white-space:normal;overflow-wrap:anywhere}
+.campaign-card .campaign-cta:hover{background:#065f3d;color:#fff;box-shadow:0 6px 16px #08784e24}
+.campaign-card .campaign-cta:focus-visible{outline:3px solid #80c9a0;outline-offset:3px}
+.campaign-card:has(.video-vertical) .campaign-cta{max-width:315px}
+.campaign-video,.campaign-embed{background:#111;}
+@media(max-width:560px){.campaign-content{padding:20px 18px 14px}.campaign-actions{padding:0 12px 16px}}
+
+/* V14: áudio opcional quando o navegador bloqueia o autoplay. */
+.campaign-sound[hidden],.campaign-sound-button[hidden]{display:none!important}.campaign-sound{display:grid;justify-items:center;gap:6px;text-align:center;padding:0 4px 4px}.campaign-sound-button{min-height:44px;max-width:100%;white-space:normal}.campaign-sound .small{line-height:1.5}
