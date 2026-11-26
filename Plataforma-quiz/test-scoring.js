@@ -1,0 +1,12 @@
+'use strict';
+const a=require('node:assert/strict'),{scoring,duration,compare}=require('./scoring');
+a.deepEqual(scoring(40,40,600000),{durationMs:600000,accuracyPoints:80,timePoints:15,points:95});
+a.equal(scoring(36,40,1200000).points,81);
+a.equal(scoring(0,40,1000).points,0);
+a.equal(scoring(40,40,2400000).points,80);
+a.equal(scoring(40,40,null).points,80);
+a.equal(duration('2026-01-01T00:00:00Z','2026-01-01T00:01:00Z'),60000);
+a.equal(duration(null,null),null);
+a(compare({uid:1,score:40,...scoring(40,40,600000)},{uid:2,score:40,...scoring(40,40,1200000)})<0);
+a(compare({uid:1,score:40,...scoring(40,40,null)},{uid:2,score:1,...scoring(1,40,1000)})>0);
+console.log('PASSOU: fórmula, tempo, bônus, precisão, desempate e elegibilidade.');
