@@ -1,0 +1,15 @@
+/* V29: escala normal, inclusive em áreas de rolagem internas. */
+html, body {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+html, body, :where(body *) {
+  touch-action: pan-x pan-y;
+}
+/* Evita a ampliação de campos pequenos ao receber foco em dispositivos móveis. */
+@media (max-width: 900px), (pointer: coarse) {
+  body input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+  body textarea, body select, body [contenteditable]:not([contenteditable="false"]) {
+    font-size: 16px !important;
+  }
+}
