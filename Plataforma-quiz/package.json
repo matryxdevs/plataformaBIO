@@ -1,0 +1,17 @@
+{
+  "name": "game-bioquality",
+  "version": "68.0.0",
+  "private": true,
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "build": "node --check identity.js && node --check course-media.js && node --check public/course-media.js && node --check server.js && node --check public/app.js && node --check race.js && node --check public/race.js && node --check scoring.js && node --check public/arena3d.js && node --check ads.js && node --check public/ads-ui.js && node --check carousel.js && node --check public/login-carousel.js && node --check teams.js && node --check public/team.js && node --check mysql-store.js && node --check public/viewport.js && node --check registration.js && node --check evaluation-print.js && node --check attendance-print.js && node --check public/attendance-print-client.js && node --check attendance.js && node --check public/attendance-ui.js && node --check public/attendance-public.js && node --check public-quiz.js && node --check public/quiz-guest.js && node --check public/quiz-guest-admin.js && node --check image-terms.js && node --check public/image-terms-admin.js && node --check public/image-terms-public.js && node --check public/image-term-print.js",
+    "test": "node run-tests.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "mysql2": "^3.15.0"
+  }
+}
