@@ -1,0 +1,17 @@
+/* V71: escala padrão; preservar rolagem e assinatura manuscrita. */
+html, body {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+:where(html, body, body *) {
+  touch-action: manipulation !important;
+  touch-action: pan-x pan-y !important;
+}
+/* A assinatura recebe eventos de ponteiro sem iniciar rolagem ou zoom. */
+#signature, #signature-pad { touch-action: none !important; }
+@media screen and (max-width: 900px), screen and (pointer: coarse) {
+  body input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+  body textarea, body select, body [contenteditable]:not([contenteditable="false"]) {
+    font-size: 16px !important;
+  }
+}

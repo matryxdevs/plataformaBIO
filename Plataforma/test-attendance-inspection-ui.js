@@ -1,0 +1,13 @@
+'use strict';
+const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
+const src=fs.readFileSync('public/attendance-ui.js','utf8');
+const ctx=vm.createContext({});
+vm.runInContext(src.slice(0,src.indexOf('function stopAttendance()')),ctx);
+const link=vm.runInContext('attendanceInspectLink("a&b","guest-x?y")',ctx);
+assert.match(link,/id=a%26b&amp;uid=guest-x%3Fy/);
+assert.match(link,/target="_blank"/);assert.match(link,/Inspecionar/);
+assert.doesNotMatch(src,/Evidências \(fotos e localização\)/);
+assert(src.includes("user.role==='admin'?`<td class=\"no-print\">${attendanceInspectLink(l.id,e.uid)}"));
+assert(src.includes("user.role==='admin'?attendanceInspectLink(r.listId,r.uid)"));
+assert.match(src,/print-v76/);
+console.log('PASSOU V76: botão individual na tabela e no histórico de colaboradores, sem atalho geral no cabeçalho.');
